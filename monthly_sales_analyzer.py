@@ -22,29 +22,70 @@ sales_data = [
     {"day": 20, "product_a": 210, "product_b": 57, "product_c": 324}
 ]
 
+
 def total_sales_by_product(data, product_key):
-    """Calculates the total sales of a specific product in 30 days."""
-    pass
+    total_sales=[]
+    for day in data:
+        total_sales.append(day[product_key])        
+    total=sum(total_sales)
+    return total
 
 
 def average_daily_sales(data, product_key):
-    """Calculates the average daily sales of a specific product."""
-    pass
+    avg_sales=[]
+    for day in data:
+        avg_sales.append(day[product_key])
+    avg=sum(avg_sales)/len(avg_sales)
+    return avg
 
 
 def best_selling_day(data):
-    """Finds the day with the highest total sales."""
-    pass
+    datacopy=sales_data.copy()
+    dia_max=max(data,key=lambda d: d["product_a"]+d["product_b"]+d["product_c"])
+    suma=dia_max["product_a"]+dia_max["product_b"]+dia_max["product_c"]
+    return f"Day {dia_max["day"]} and total of {suma}"
 
 
 def days_above_threshold(data, product_key, threshold):
-    """Counts how many days the sales of a product exceeded a given threshold."""
-    pass
+    count=0
+    datacopy=sales_data.copy()
+    days_above=[]
+    for day in data:
+        if day[product_key]>threshold:
+            days_above.append(day["day"])
+            count+=1
+    print(f"Days when {product_key} exceed {threshold} are :{days_above}")
+    return count
+    
 
 
 def top_product(data):
-    """Determines which product had the highest total sales in 30 days."""
-    pass
+    datacopy=sales_data.copy()
+    a=[]
+    b=[]
+    c=[]
+    for day in data:
+        a.append(day["product_a"])
+        b.append(day["product_b"])
+        c.append(day["product_c"])
+    ventas_a=sum(a)
+    ventas_b=sum(b)
+    ventas_c=sum(c)
+    
+    if ventas_a>ventas_b or ventas_a>ventas_c:
+        return f"product a with {ventas_a}"
+    elif ventas_b>ventas_a or ventas_b>ventas_c:
+        return f"product b with {ventas_b}"
+    elif ventas_c>ventas_a or ventas_c>ventas_b:
+        return f"product c with {ventas_c}"
+
+
+def worst_selling_day(data):
+    datacopy=sales_data.copy()
+    dia_min=min(data,key=lambda d: d["product_a"]+d["product_b"]+d["product_c"])
+    suma=dia_min["product_a"]+dia_min["product_b"]+dia_min["product_c"]
+    return f"Day {dia_min["day"]} and total of {suma}"
+
 
 
 
@@ -54,3 +95,5 @@ print("Average daily sales of product_b:", average_daily_sales(sales_data, "prod
 print("Day with highest total sales:", best_selling_day(sales_data))
 print("Days when product_c exceeded 300 sales:", days_above_threshold(sales_data, "product_c", 300))
 print("Product with highest total sales:", top_product(sales_data))
+print("Day with lowest total sales:", worst_selling_day(sales_data))
+
