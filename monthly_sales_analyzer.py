@@ -40,15 +40,14 @@ def average_daily_sales(data, product_key):
 
 
 def best_selling_day(data):
-    datacopy=sales_data.copy()
     dia_max=max(data,key=lambda d: d["product_a"]+d["product_b"]+d["product_c"])
     suma=dia_max["product_a"]+dia_max["product_b"]+dia_max["product_c"]
+    print(dia_max)
     return f"Day {dia_max["day"]} and total of {suma}"
 
 
 def days_above_threshold(data, product_key, threshold):
     count=0
-    datacopy=sales_data.copy()
     days_above=[]
     for day in data:
         if day[product_key]>threshold:
@@ -60,7 +59,6 @@ def days_above_threshold(data, product_key, threshold):
 
 
 def top_product(data):
-    datacopy=sales_data.copy()
     a=[]
     b=[]
     c=[]
@@ -86,7 +84,24 @@ def worst_selling_day(data):
     suma=dia_min["product_a"]+dia_min["product_b"]+dia_min["product_c"]
     return f"Day {dia_min["day"]} and total of {suma}"
 
+def ordenar(data):
+    #new_data=(sorted(data, key=lambda d:(d["product_a"],d["product_b"],d["product_c"])))
+    new_data={}
+    for day in data:
+        new_data.update({day["day"]:(day["product_a"]+day["product_b"]+day["product_c"])})
+    new_data_ordenado=dict(sorted(new_data.items(),key=lambda item:item[1],reverse=True))            
+    #return new_data_ordenado,new_data_ordenado[12],new_data_ordenado[9],new_data_ordenado[2]
+    return data["day"][12]
 
+
+def max_min(data,product_key):
+    product=[]
+    for day in data:
+        product.append(day[product_key])
+    product_max=max(product)
+    product_min=min(product)
+    rango_product=[product_min,product_max]    
+    return rango_product
 
 
 # Function tests
@@ -96,4 +111,5 @@ print("Day with highest total sales:", best_selling_day(sales_data))
 print("Days when product_c exceeded 300 sales:", days_above_threshold(sales_data, "product_c", 300))
 print("Product with highest total sales:", top_product(sales_data))
 print("Day with lowest total sales:", worst_selling_day(sales_data))
-
+print("3 best days of sales:",ordenar(sales_data))
+print("Range of product:",max_min(sales_data,"product_c"))
