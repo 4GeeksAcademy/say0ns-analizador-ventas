@@ -40,10 +40,17 @@ def average_daily_sales(data, product_key):
 
 
 def best_selling_day(data):
-    dia_max=max(data,key=lambda d: d["product_a"]+d["product_b"]+d["product_c"])
-    suma=dia_max["product_a"]+dia_max["product_b"]+dia_max["product_c"]
-    print(dia_max)
-    return f"Day {dia_max["day"]} and total of {suma}"
+    #dia_max=max(data,key=lambda d: d["product_a"]+d["product_b"]+d["product_c"])
+    #suma=dia_max["product_a"]+dia_max["product_b"]+dia_max["product_c"]
+    new_data={}
+    #new_list=[]
+    
+    for day in data:
+        new_data.update({day["day"]:(day["product_a"]+day["product_b"]+day["product_c"])})
+    #new_list=list(new_data.values())
+    #suma=max(new_list)
+    dia_max,value_max=max(new_data.items(),key=lambda x: x[1])            
+    return f"Day {dia_max} and total of {value_max}"
 
 
 def days_above_threshold(data, product_key, threshold):
@@ -79,19 +86,25 @@ def top_product(data):
 
 
 def worst_selling_day(data):
-    datacopy=sales_data.copy()
-    dia_min=min(data,key=lambda d: d["product_a"]+d["product_b"]+d["product_c"])
-    suma=dia_min["product_a"]+dia_min["product_b"]+dia_min["product_c"]
-    return f"Day {dia_min["day"]} and total of {suma}"
+    #dia_min=min(data,key=lambda d: d["product_a"]+d["product_b"]+d["product_c"])
+    #suma=dia_min["product_a"]+dia_min["product_b"]+dia_min["product_c"]
+    new_data={}
+    #new_list=[]    
+    for day in data:
+        new_data.update({day["day"]:(day["product_a"]+day["product_b"]+day["product_c"])})
+    #new_list=list(new_data.values())
+    #suma=max(new_list)
+    dia_min,value_min=min(new_data.items(),key=lambda x: x[1])            
+    return f"Day {dia_min} and total of {value_min}"
+    
 
 def ordenar(data):
-    #new_data=(sorted(data, key=lambda d:(d["product_a"],d["product_b"],d["product_c"])))
     new_data={}
     for day in data:
         new_data.update({day["day"]:(day["product_a"]+day["product_b"]+day["product_c"])})
     new_data_ordenado=dict(sorted(new_data.items(),key=lambda item:item[1],reverse=True))            
-    #return new_data_ordenado,new_data_ordenado[12],new_data_ordenado[9],new_data_ordenado[2]
-    return data["day"][12]
+    primeros_tres=list(new_data_ordenado.items())[:3]
+    return primeros_tres
 
 
 def max_min(data,product_key):
@@ -100,8 +113,8 @@ def max_min(data,product_key):
         product.append(day[product_key])
     product_max=max(product)
     product_min=min(product)
-    rango_product=[product_min,product_max]    
-    return rango_product
+    range_product=[product_min,product_max]    
+    return range_product
 
 
 # Function tests
